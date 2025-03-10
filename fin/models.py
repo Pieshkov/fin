@@ -65,8 +65,6 @@ class Transaction(models.Model):
                 if self.transaction_type == 'INCOME':
                     self.account.balance += self.amount
                 elif self.transaction_type == 'EXPENSE':
-                    if self.account.balance < self.amount:
-                        raise ValueError(f'Insufficient funds in {self.account.name}')
                     self.account.balance -= self.amount
                 self.account.save()
                 super().save(*args, **kwargs)
