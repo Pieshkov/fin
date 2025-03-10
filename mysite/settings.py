@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,10 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-)a51#x%m=s$fq$4lkpuih4hvfea8#@xcstrvl2q+%%uji5n)$h'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-)a51#x%m=s$fq$4lkpuih4hvfea8#@xcstrvl2q+%%uji5n)$h')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DJANGO_DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = []
 
@@ -38,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'fin.apps.FinConfig',
 ]
 
 MIDDLEWARE = [
@@ -126,3 +131,13 @@ STATICFILES_DIRS = [ os.path.join(BASE_DIR, 'polls/static'),]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = 'blog-home'  # перенаправлення після успішного логіну
 LOGIN_URL = 'login'  # URL для логіну, якщо користувач не авторизований
+
+# Message tags
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-info',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}
